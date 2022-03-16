@@ -16,3 +16,5 @@ After a rough review of the introduction of QT6 and the changes pointed out by o
 If you find incompatibility, please report to the CE project team.
 
 Because a member of Yixu organization is deeply trapped in the quagmire of OpenCV, this project also has the wheel of OpenCV.
+
+Since the CE library comes from different developers, when they first appear in this project, they are likely to be inconsistent with the mainstream style, and even do not use the standardized namespace and macro system. These format flaws will be corrected in the future.
