@@ -1,4 +1,4 @@
-# CE_CommonEdit
+# CommonEdit
 The members of Yixu organization have had enough of making wheels. Now they plan to collect the wheels they have made and organize them into a library called CommonEdit.
 
 This project includes the source code of all open source CE projects.
