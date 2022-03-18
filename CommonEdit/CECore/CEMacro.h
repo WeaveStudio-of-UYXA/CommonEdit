@@ -1,38 +1,32 @@
 #pragma once
-
+//This file contains the core macro definitions of the CE library
 #ifndef CEL
-#define CEL
-#define CE_VERSION_MAJOR 1
-#define CE_VERSION_MINOR 0
-#endif
+	#define CEL
 
-#ifdef QT_VERSION_MAJOR
-	#if (QT_VERSION_MAJOR==5)
-		#ifndef CE_QT_5
-		#define CE_QT_5
-	#endif
-#elif (QT_VERSION_MAJOR==6)
-	#ifndef CE_QT_6
-		#define CE_QT_6
-		#endif
-	#endif
+	#define CE_VERSIONINFO
+		#define CE_VERSION_MAJOR 1
+		#define CE_VERSION_MINOR 0
 #endif
 
 #ifndef CEL_KEYWORD
 	#define CEL_KEYWORD
-	#define tick unsigned int
-	#define l_tick unsigned long long
-	#define CE_NULLPTR nullptr
-	#define publicOperator public 
+		#define tick unsigned int
+		#define l_tick unsigned long long
+		#define CE_NULLPTR nullptr
+		#define operators 
 
 	#define CEL_PYTHON_TO_CPP
-	#define self this
-	#define elif else if
-	#define def void
-	#define True true
-	#define False false
-	#define match switch
+		#define self this
+		#define elif else if
+		#define def void
+		#define True true
+		#define False false
+		#define match switch
 #endif
+
+//We provide macros that are supported by Visual Studio(strictly speaking,by WindowsAPI) by default, 
+// but are not actually part of standard C++.
+//When the code leaves the environment, we don't want these macros to report errors.
 
 #ifndef FALSE
 	#define FALSE false
@@ -43,6 +37,4 @@
 	#define NULL 0
 #endif
 
-#ifndef Q_NULLPTR
-	#define Q_NULLPTR nullptr
-#endif
+
