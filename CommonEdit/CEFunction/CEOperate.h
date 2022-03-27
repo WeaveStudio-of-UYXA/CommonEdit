@@ -1,7 +1,7 @@
 /*This file is the CEOperate Library in CommonEdit. 
 Most of the functions in this document come from the LazyManV3 written by Ayano Aishi.
 The random number function in this document is completed through QT.*/
-
+#pragma once
 #include "../CECore/CECore.h"
 #ifdef CE_QT_5
 #include <QTime>
@@ -9,10 +9,6 @@ The random number function in this document is completed through QT.*/
 #include <ctime>
 #endif
 
-//We provide you with this macro to quickly set seed of all CE random functions.
-//If you do not use the Qt library, the macro uses the native random number seed function.
-//All CE functions related to random numbers work like this
-#define INIT_RAND_SEED CE::CEOperate::initSeed();
 
 namespace CE {
     class CEOperate {
@@ -104,6 +100,14 @@ namespace CE {
             qsrand((unsigned)time(NULL));
 #endif
         }
+        static int randInt(int min, int max)
+        {
+#ifndef CE_QT_5
+            return rand() % (max - min + 1) + min;
+#else
+            return qrand() % (max - min + 1) + min;
+#endif
+        }
         //初始化数组（数字数组）
         template <typename T>static void initArray(T* Array, int Length, T Min, T Max, bool Unique = false) {
             T Cache[Length];
@@ -175,3 +179,8 @@ namespace CE {
         }
     };
 }
+
+//We provide you with this macro to quickly set seed of all CE random functions.
+//If you do not use the Qt library, the macro uses the native random number seed function.
+//All CE functions related to random numbers work like this
+#define INIT_RAND_SEED CE::CEOperate::initSeed();
