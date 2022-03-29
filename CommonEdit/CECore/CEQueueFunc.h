@@ -5,9 +5,9 @@
 
 #ifndef CE_DYNAMIC_AND_QUEUE_FUNC_FRAMEWORK
 #define CE_DYNAMIC_AND_QUEUE_FUNC_FRAMEWORK
-#define CE_DYNAMIC private :CE::CEQueueFunc CEDynamicFuncQueue; public: void doCEDynamicFunc(){CEDynamicFuncQueue.doFunc();}
+#define CE_DYNAMIC Q_OBJECT public :CE::CEQueueFunc CEDynamicFuncQueue; public slots: void doCEDynamicFunc(){CEDynamicFuncQueue.doFunc();} void doCEDynamicFuncFirst(){CEDynamicFuncQueue.doFunc(CE::CEQueueFuncPolicy::First);}void doCEDynamicFuncWith(CEDynamicFunctionID ID){CEDynamicFuncQueue.doFunc(ID);}
 #define CE_Return return
-#define enableCEDynamicFunc :public CE::CEQueueFuncBase
+#define enableCEDynamicFunc public QObject, public CE::CEQueueFuncBase
 #define CEDF_VOID {}
 #define CEDF_BothVOID {},{}
 #define CEDF_ReturnVOID {CE::CEQueueReturnThen::next,CEDF_BothVOID}
@@ -21,8 +21,11 @@
 #define CEDF_slot CEDF_ReturnStruct dynamicFunc(CEDF_FuncInfo)
 #define ifIsCEDF(funcName) if(CEDF_FunctionInfo.FuncName==#funcName){ CEDF_ReturnStruct ReturnInfo = this->funcName(CEDF_FunctionInfo.NormalParaList,CEDF_FunctionInfo.PointerParaList);CE_Return ReturnInfo;}
 #define addCEDF(funcName,Normal,Pointer) this->CEDynamicFuncQueue.addDynamicFunc(this,{#funcName,Normal,Pointer});
+#define removeCEDF(CEDF_ID) this->CEDynamicFuncQueue.removeDynamicFunc(CEDF_ID);
 #define CEDF_doFunc doCEDynamicFunc
-#define CEDF_def(funcName) CEDF_ReturnStruct funcName(CEDF_ParaLists)
+#define CEDF_def(funcName) public: CEDF_ReturnStruct funcName(CEDF_ParaLists)
+#define CEDF_toQtSlot(CEDFName,newName) public slots: void newName(CEDF_ParaLists,bool QtSlots){CEDF_ReturnStruct Return = CEDFName(CEDF_NormalList,CEDF_PointerList);}
+#define CEDF_asQtSlot true;
 typedef long long CEDynamicFunctionID;
 typedef QStringList QCENormalList;
 typedef QList<void*> QCEPointerList;
@@ -213,7 +216,7 @@ namespace CE {
 		}
 	};
 
-	class CEQueueFuncTest enableCEDynamicFunc
+	class CEQueueFuncTest : enableCEDynamicFunc
 	{
 		CE_DYNAMIC
 	public:
@@ -233,6 +236,7 @@ namespace CE {
 				CE_Return CEDF_ReturnREMOVE;
 			}
 		};
+		CEDF_toQtSlot(Func1,qFunc1);
 		CEDF_def(Func2) {
 			qDebug() << "FUNC2";
 			CE_Return CEDF_ReturnVOID;

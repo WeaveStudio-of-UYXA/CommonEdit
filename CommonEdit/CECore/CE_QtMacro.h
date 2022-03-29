@@ -1,4 +1,11 @@
 #pragma once
+
+#define CE_USE_QT
+
+#ifdef CE_USE_QT
+#include <QtCore>
+#endif
+
 //The macros in this file are used to enhance the Qt development experience. 
 //If there is no Qt environment, they will not be activated
 #ifdef QT_VERSION_MAJOR
