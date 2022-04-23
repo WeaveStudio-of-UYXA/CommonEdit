@@ -23,10 +23,8 @@ class CEMain:
         argv = sys.argv
         this.qApp = QApplication(argv)
         this.doPreSet()
-        CEDirChc.setDir(".\\Users_Data\\repos")
         CEDirChc.check(CEDirCheck.whenFailed.doException)
         CESets.setKVPair(this.SetDict)
-        CESets.setCESPath(".\\Users_Data\\options.ini")
         CESets.setBeyondPolicy(CESettings.WhenBeyond.doException)
         CESets.loadSettings()
         CELangSys.setName(CELanguage.fromStr(CESets.valueOf("Language")))
@@ -35,3 +33,4 @@ class CEMain:
         a=this.main(argv)
         CESets.save()
         sys.exit(a)
+

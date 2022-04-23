@@ -78,10 +78,11 @@ class CESettings(QObject):
             settingsFileText = QTextStream(settingsFile)
             settingsFileText.setCodec("UTF-8")
             while (True):
-                stSingleString=settingsFileText.readLine()
-                if (stSingleString[0] == "#" or stSingleString[0] == "\n") : continue
-                this.__SettingsPair__[stSingleString.split("=")[0]] = stSingleString.split("=")[-1]
                 if (settingsFileText.atEnd()) : break
+                stSingleString=settingsFileText.readLine()
+                if (stSingleString=="") : continue
+                if (stSingleString[0] == "#" or stSingleString[0] == "\n") : continue
+                this.__SettingsPair__[stSingleString.split("=")[0]] = stSingleString.split("=")[-1]        
             return True
 
     def valueOf(this, Key:str)->str:
