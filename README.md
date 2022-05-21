@@ -20,3 +20,5 @@ Because a member of Yixu organization is deeply trapped in the quagmire of OpenC
 Since the CE library comes from different developers, when the codes first appear in this project, they are likely to be inconsistent with the mainstream style, and even do not use the standardized namespace and macro system. These format flaws will be corrected in the future.
 
 PyCE is not updated synchronously with C++CE, but files with the same name will provide a unified use experience as much as possible
+
+PyCE established the concept of main class belonging to CE for the first time in an update. This concept has been proved to be relatively successful in another project developed jointly with PyCE. Therefore, C++ CE also adopted the main class as the initialization and management mode of CE components. However, adopting the main class to initialize CE may affect the coexistence with other contents, or reduce the readability and maintainability to a certain extent. Therefore, CE will try to provide a global instance of the newly compiled CEApplication class as the initialization and management method of CE components by imitating QApplication in the future
