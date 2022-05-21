@@ -2,6 +2,7 @@
 #include <QtCore>
 #include "CEMacro.h"
 #include "../CEFunction/CEOperate.h"
+
 #ifndef CE_DYNAMIC_AND_QUEUE_FUNC_FRAMEWORK
 #define CE_DYNAMIC_AND_QUEUE_FUNC_FRAMEWORK
 #define CE_DYNAMIC Q_OBJECT public :CE::CEQueueFunc CEDynamicFuncQueue; public slots: void doCEDynamicFunc(){CEDynamicFuncQueue.doFunc();} void doCEDynamicFuncFirst(){CEDynamicFuncQueue.doFunc(CE::CEQueueFuncPolicy::First);}void doCEDynamicFuncWith(CEDynamicFunctionID ID){CEDynamicFuncQueue.doFunc(ID);}
@@ -25,30 +26,11 @@
 #define CEDF_def(funcName) public: CEDF_ReturnStruct funcName(CEDF_ParaLists)
 #define CEDF_toQtSlot(CEDFName,newName) public slots: void newName(CEDF_ParaLists,bool QtSlots){CEDF_ReturnStruct Return = CEDFName(CEDF_NormalList,CEDF_PointerList);}
 #define CEDF_asQtSlot true;
-
+typedef long long CEDynamicFunctionID;
 typedef QStringList QCENormalList;
 typedef QList<void*> QCEPointerList;
-
-
-#define CEDF_BString QString
-#define CEDF_BList QList
-#define CEDF_BMap QMap
-typedef long long CEDynamicFunctionID;
-#define CEDF_ID_NULL -1;
-#define CEDFStringPara QStringList;
-
 #endif
-namespace CE {
-	struct CEDFParaStruct {
-		
-	};
-	enum class CEDynamicFuncListPolicy
-	{
-		unknown = 0,
-		First = 1,
-		Traverse = 2,
-	};
-}
+
 namespace CE {
 	enum class CEQueueFuncPolicy
 	{
@@ -265,4 +247,3 @@ namespace CE {
 		}
 	};
 }
-

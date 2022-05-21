@@ -44,7 +44,7 @@ namespace CE {
             return SettingsPair[key];
 
         }
-        QString setValue(QString Key, QString Value, savePolicy SavePolicy = savePolicy::saveAtOnce)
+        void setValue(QString Key, QString Value, savePolicy SavePolicy = savePolicy::saveAtOnce)
         {
             SettingsPair[Key] = Value;
             switch (SavePolicy) {

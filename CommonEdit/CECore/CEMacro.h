@@ -15,7 +15,11 @@
 		#define CE_NULLPTR nullptr
 		#define operators 
 		#define None
+		#define DoNothing
 		#define ENUM enum class
+		#define Public public:
+		#define Private private:
+		#define Protected protected:
 		
 
 	#define CEL_PYTHON_TO_CPP
