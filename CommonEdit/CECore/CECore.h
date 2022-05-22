@@ -6,3 +6,4 @@
 #include "CEObject.h"
 #include "CEEnum.h"
 #include "CEEvent.h"
+#include "CEBaseType.h"

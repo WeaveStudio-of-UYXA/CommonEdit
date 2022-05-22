@@ -1,6 +1,7 @@
 #pragma once
 #include <QtCore>
 #include <QApplication>
+#include "CEObject.h"
 #include "../CEFunction/CELanguage.h"
 #include "../CEFunction/CESettings.h"
 
@@ -9,13 +10,15 @@
 #define def_END }; do_CEMain
 #define CEMainPara int argc, char* argv[]
 namespace CE {
-	class CEMain
+	class CEMain :public CEObject
 	{
 	public:
 		QMap<QString, QString> SetDict;
 		int gargc;
 		char** gargv;
 		CEMain(int argc, char* argv[]) {
+			ObjectType = "Main";
+			InstanceName = "Main";
 			gargc = argc;
 			gargv = argv;
 		}
