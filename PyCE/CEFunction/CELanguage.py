@@ -36,7 +36,7 @@ class CELanguage:
     """
     __LangName__ = CELanguageName.unknown
     __DirPath__ = ""
-    
+    __InDevelop = False
     __TransDict__ = {}
     def __init__(this,LanguageName:CELanguageName = CELanguageName.unknown)->None:
         this.__LangName__ = LanguageName
@@ -118,7 +118,32 @@ class CELanguage:
             return this.__TransDict__[Key]
         except Exception:
             print("Error:CELanguage:The translated text corresponding to the key'" + Key + "' could not be found")
+            if (this.__InDevelop):
+                this.__TransDict__[Key] = ""
             return Key
+
+    def setDevelop(this,InDevelop:bool)->None:
+        """
+        setDevelop(InDevelop:bool)->None\n
+        Set the language to be in development mode.\n
+        In development mode, you can use the function "develop" to output a file contains keys that haven`t had translated\n
+        """
+        this.__InDevelop = InDevelop
+
+    def develop(this)->None:
+        """
+        develop()->None\n
+        Output the contents of the built-in dictionary\n
+        """
+        TargetFileName = this.__DirPath__ + "\\" + this.__LangName__.value +"_DEV.celang"
+
+        TargetFile = open(TargetFileName,"w+",encoding="utf-8")
+        for Key in this.__TransDict__.keys():
+            TargetFile.write(Key + ":" + this.__TransDict__[Key] + "\n")
+        TargetFile.close()
+
+
+        
 
 #Provide a global variable named CELangSys and a global function pointer named msg to quickly access the celanguage system.
 #With these two variables, the SPLanguage System can also be quickly migrated to the CELanguage System

@@ -23,7 +23,7 @@ class CEMain:
         argv = sys.argv
         this.qApp = QApplication(argv)
         this.doPreSet()
-        CEDirChc.check(CEDirCheck.whenFailed.doException)
+        CEDirChc.check(CEDirCheck.whenFailed.doRepairWithWarning)
         CESets.setKVPair(this.SetDict)
         CESets.setBeyondPolicy(CESettings.WhenBeyond.doException)
         CESets.loadSettings()

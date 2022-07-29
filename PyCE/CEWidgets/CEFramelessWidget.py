@@ -21,10 +21,10 @@ class CEInsideStyle(Enum):
     CETestUI = 5
 
 class CESelfWidget_TitleFrame(QFrame):
-    __TitleButton__ = [CESelfWidgetTitleButton.Minimize, CESelfWidgetTitleButton.Maximize, CESelfWidgetTitleButton.Close]
-    __WindowFullSize__ = False
-    __MaximizeButtonFullStyleSheet__ = ""
-    __MaximizeButtonNormalStyleSheet__ = ""
+    __TitleButton = [CESelfWidgetTitleButton.Minimize, CESelfWidgetTitleButton.Maximize, CESelfWidgetTitleButton.Close]
+    __WindowFullSize = False
+    __MaximizeButtonFullStyleSheet = ""
+    __MaximizeButtonNormalStyleSheet = ""
     def __init__(this, parent:QWidget = None):
         super().__init__(parent)
         this.setParent(parent)
@@ -45,42 +45,42 @@ class CESelfWidget_TitleFrame(QFrame):
         win32gui.ShowWindow(this.parentWidget().winId(), win32con.SW_MINIMIZE)
 
     def __onMaximumButtonClicked__(this):
-        if (this.__WindowFullSize__):
+        if (this.__WindowFullSize):
             win32gui.ShowWindow(this.parentWidget().winId(), win32con.SW_NORMAL)
-            this.__WindowFullSize__ = False
-            this.maximumButton.setStyleSheet(this.__MaximizeButtonFullStyleSheet__)
+            this.__WindowFullSize = False
+            this.maximumButton.setStyleSheet(this.__MaximizeButtonFullStyleSheet)
         else:
             win32gui.ShowWindow(this.parentWidget().winId(), win32con.SW_MAXIMIZE)
-            this.__WindowFullSize__ = True
-            this.maximumButton.setStyleSheet(this.__MaximizeButtonNormalStyleSheet__)
+            this.__WindowFullSize = True
+            this.maximumButton.setStyleSheet(this.__MaximizeButtonNormalStyleSheet)
     
     def __onCloseButtonCliceked__(this):
         this.parentWidget().close()
     
     @overload
     def setTitleButtonDisable(this, button:CESelfWidgetTitleButton):
-        if (button in this.__TitleButton__):
-            this.__TitleButton__.remove(button)
+        if (button in this.__TitleButton):
+            this.__TitleButton.remove(button)
         this.__reloadTitleButton__()
 
     @overload
     def setTitleButtonDisable(this, buttonlist:List[CESelfWidgetTitleButton]):
         for i in buttonlist:
-            if (i in this.__TitleButton__):
-                this.__TitleButton__.remove(i)
+            if (i in this.__TitleButton):
+                this.__TitleButton.remove(i)
         this.__reloadTitleButton__()
 
     @overload
     def setTitleButtonEnable(this, button:CESelfWidgetTitleButton):
-        if (button not in this.__TitleButton__):
-            this.__TitleButton__.append(button)
+        if (button not in this.__TitleButton):
+            this.__TitleButton.append(button)
         this.__reloadTitleButton__()
 
     @overload
     def setTitleButtonEnable(this, buttonlist:List[CESelfWidgetTitleButton]):
         for i in buttonlist:
-            if (i not in this.__TitleButton__):
-                this.__TitleButton__.append(i)
+            if (i not in this.__TitleButton):
+                this.__TitleButton.append(i)
         this.__reloadTitleButton__()
 
     def setSelfTitle(this, title:str):
@@ -103,32 +103,32 @@ class CESelfWidget_TitleFrame(QFrame):
         this.minimumButton.setStyleSheet(styleSheet)
 
     def setMaximumButtonFullStyleSheet(this, styleSheet:str):    
-        this.__MaximizeButtonFullStyleSheet__ = styleSheet
+        this.__MaximizeButtonFullStyleSheet = styleSheet
         this.__setMaximumButtonStyleSheet__()
 
     def setMaximumButtonNormalStyleSheet(this, styleSheet:str):
-        this.__MaximizeButtonNormalStyleSheet__ = styleSheet
+        this.__MaximizeButtonNormalStyleSheet = styleSheet
         this.__setMaximumButtonStyleSheet__()
 
     def __setMaximumButtonStyleSheet__(this):
-        if (this.__WindowFullSize__):
-            this.maximumButton.setStyleSheet(this.__MaximizeButtonNormalStyleSheet__)
+        if (this.__WindowFullSize):
+            this.maximumButton.setStyleSheet(this.__MaximizeButtonNormalStyleSheet)
         else:
-            this.maximumButton.setStyleSheet(this.__MaximizeButtonFullStyleSheet__)
+            this.maximumButton.setStyleSheet(this.__MaximizeButtonFullStyleSheet)
 
     def setCloseButtonStyleSheet(this, styleSheet:str):
         this.closeButton.setStyleSheet(styleSheet)
 
     def __reloadTitleButton__(this):
-        if (CESelfWidgetTitleButton.Minimize in this.__TitleButton__):
+        if (CESelfWidgetTitleButton.Minimize in this.__TitleButton):
             this.minimumButton.show()
         else:
             this.minimumButton.hide()
-        if (CESelfWidgetTitleButton.Maximize in this.__TitleButton__):
+        if (CESelfWidgetTitleButton.Maximize in this.__TitleButton):
             this.maximumButton.show()
         else:
             this.maximumButton.hide()
-        if (CESelfWidgetTitleButton.Close in this.__TitleButton__):
+        if (CESelfWidgetTitleButton.Close in this.__TitleButton):
             this.closeButton.show()
         else:
             this.closeButton.hide()
