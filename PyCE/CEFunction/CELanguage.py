@@ -134,6 +134,8 @@ class CELanguage:
         """
         develop()->None\n
         Output the contents of the built-in dictionary\n
+        This function is called internally by CEMain and output at the end of the program.\n
+        All you need to do is call another function setDevelop with the parameter True
         """
         TargetFileName = this.__DirPath__ + "\\" + this.__LangName__.value +"_DEV.celang"
 

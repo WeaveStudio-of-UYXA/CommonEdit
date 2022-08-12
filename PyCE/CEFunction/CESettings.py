@@ -115,6 +115,13 @@ class CESettings(QObject):
         if (savePolicy==this.SavePolicy.saveAtOnce):
             this.save()
 
+    def getKeys(this)->List[str]:
+        """
+        getKeys()->List[str] \n
+        Output a list of all keys in the program settings cache
+        """
+        return list(this.__SettingsPair__.keys())
+
     def save(this)->None:
         """
         save()->None\n

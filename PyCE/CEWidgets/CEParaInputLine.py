@@ -13,15 +13,18 @@ class CEParaInputLine(QFrame):
     UnitType:Unit
     TargetUnit:None
     LastData:Any = ""
+    currentValueChanged=Signal()
     def __init__(this, parent:QWidget = None):
         super().__init__(parent)
         this.setParent(parent)
         this.setObjectName("CEParaInputLine")
         this.TextLabel = QLabel(this)
+        this.TextLabel.setAlignment(Qt.AlignCenter)
         this.InputEdit = QLineEdit(this)
         this.UnitBox = QComboBox(this)
         this.TextLabel.setObjectName("TextLabel")
         this.InputEdit.setObjectName("InputEdit")
+        this.InputEdit.textChanged.connect(this.currentValueChanged)
         this.UnitBox.setObjectName("UnitBox")
         this.UnitBox.currentIndexChanged.connect(this.unitTrans)
         
@@ -97,3 +100,30 @@ class CEParaInputLine(QFrame):
             this.LastData=this.UnitBox.currentData()
 
     
+class CEParaTitle(QFrame):
+    def __init__(this, strlst:List[str], parent:QWidget = None):
+        super().__init__(parent)
+        this.setParent(parent)
+        this.setObjectName("CEParaTitle")
+        this.CurrentLayout = QHBoxLayout(this)
+        this.setLayout(this.CurrentLayout)
+        this.LabelList = []
+        if strlst == [] : raise Exception("CEParaTitle:Exception:CEParaTitle forbids initialization with empty list.")
+        for i in strlst:
+            newLabel = QLabel(this)
+            newLabel.setObjectName("ParaTitleLabel")
+            newLabel.setText(i)
+            this.LabelList.append(newLabel)
+            this.CurrentLayout.addWidget(newLabel)
+        this.resizeEvent()
+        
+    def setLabelStyleSheet(this, style:str):
+        for i in this.LabelList:
+            i.setStyleSheet(style)
+
+    def setStretchList(this, lst:List[int]):
+        if len(lst) != len(this.LabelList):
+            raise Exception("CEParaTitle:Exception:length of StretchLst is not equal to length of LabelList.")
+        for i in range(len(lst)):
+            this.CurrentLayout.setStretch(this.LabelList[i], lst[i])
+        

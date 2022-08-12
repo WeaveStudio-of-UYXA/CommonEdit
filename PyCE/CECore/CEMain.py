@@ -32,5 +32,6 @@ class CEMain:
         CELangSys.load()
         a=this.main(argv)
         CESets.save()
+        CELangSys.develop()
         sys.exit(a)
 
