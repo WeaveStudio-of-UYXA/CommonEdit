@@ -1,4 +1,4 @@
-# CommonEdit
+# CommonEdit - C++ (RawVersion)
 The members of Yixu organization have had enough of making wheels. Now they plan to collect the wheels they have made and organize them into a library called CommonEdit.
 
 This project includes the source code of all open source CE projects.
@@ -17,8 +17,13 @@ If you find incompatibility, please report to the CE project team.
 
 Because a member of Yixu organization is deeply trapped in the quagmire of OpenCV, this project also has the wheel of OpenCV.
 
-Since the CE library comes from different developers, when the codes first appear in this project, they are likely to be inconsistent with the mainstream style, and even do not use the standardized namespace and macro system. These format flaws will be corrected in the future.
-
+# PyCE - Python (C++ Translation)
 PyCE is not updated synchronously with C++CE, but files with the same name will provide a unified use experience as much as possible
 
 PyCE established the concept of main class belonging to CE for the first time in an update. This concept has been proved to be relatively successful in another project developed jointly with PyCE. Therefore, C++ CE also adopted the main class as the initialization and management mode of CE components. However, adopting the main class to initialize CE may affect the coexistence with other contents, or reduce the readability and maintainability to a certain extent. Therefore, CE will try to provide a global instance of the newly compiled CEApplication class as the initialization and management method of CE components by imitating QApplication in the future
+
+# JCE - Java (Independent development)
+When Weave Studio members started developing plug-ins for Minecraft, they found that Java also needed to create several wheels for later use. Therefore, the relevant functions of JCE are completely inconsistent with C++CE or PyCE, and belong to another independent line
+
+
+Since the CE library comes from different developers, when the codes first appear in this project, they are likely to be inconsistent with the mainstream style, and even do not use the standardized namespace and macro system. These format flaws will be corrected in the future.
