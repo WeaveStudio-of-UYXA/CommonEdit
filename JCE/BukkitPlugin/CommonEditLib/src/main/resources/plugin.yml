@@ -1,0 +1,6 @@
+name: CommonEditLib
+version: '${project.version}'
+main: io.weavestudio.commoneditlib.CommonEditLib
+api-version: 1.15
+authors: [ TheRiverElder ]
+description: Bukkit库插件，提供指令构建、持久化接口等工具
