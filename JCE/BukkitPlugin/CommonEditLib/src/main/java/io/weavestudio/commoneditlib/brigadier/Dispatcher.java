@@ -19,6 +19,10 @@ public class Dispatcher<TSender> extends RootParameter<TSender> {
                 .stream()
                 .max(Comparator.comparingInt(DispatchResult::getLength))
                 .orElseThrow(CommandUtils.suppliesException("没有匹配的指令"));
+
+        argFeeder.setIndex(result.getLength());
+        if (argFeeder.hasNext()) throw new Exception("多余或错误的参数：" + argFeeder.read());
+
         result.getExecutor().onExecute(result);
     }
 }

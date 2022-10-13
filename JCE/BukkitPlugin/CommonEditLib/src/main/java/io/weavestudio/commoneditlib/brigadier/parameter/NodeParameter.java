@@ -64,7 +64,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
         }
 
         if (executor != null) {
-            DispatchResult<TSender> result = new DispatchResult<>(dispatcher, argCollector, executor, argFeeder.getIndex());
+            DispatchResult<TSender> result = new DispatchResult<>(dispatcher, argCollector, executor, sender, argFeeder.getIndex());
             results.add(result);
         }
 

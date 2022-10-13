@@ -10,12 +10,15 @@ public class DispatchResult<TSender> {
     protected final DataAdaptor arguments;
     @NotNull
     protected final Executor<TSender> executor;
+    @NotNull
+    protected final TSender sender;
     protected final int length;
 
-    public DispatchResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull Executor<TSender> executor, int length) {
+    public DispatchResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull Executor<TSender> executor, @NotNull TSender sender, int length) {
         this.dispatcher = dispatcher;
         this.arguments = arguments;
         this.executor = executor;
+        this.sender = sender;
         this.length = length;
     }
 
