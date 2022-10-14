@@ -34,6 +34,10 @@ public class DispatchResult<TSender> {
         return executor;
     }
 
+    public @NotNull TSender getSender() {
+        return sender;
+    }
+
     public int getLength() {
         return length;
     }
