@@ -24,6 +24,11 @@ public class Feeder<T> {
         return list.get(index++);
     }
 
+    public Feeder<T> skip(int amount) {
+        index += amount;
+        return this;
+    }
+
     public boolean hasNext() {
         return index < list.size();
     }

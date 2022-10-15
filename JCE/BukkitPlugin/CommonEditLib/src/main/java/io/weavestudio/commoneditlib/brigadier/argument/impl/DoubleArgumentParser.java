@@ -5,6 +5,10 @@ import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class DoubleArgumentParser extends ArgumentParser<Double> {
     @Override
     public @NotNull Double parse(Feeder<String> argFeeder) throws IllegalArgumentException {
@@ -15,5 +19,17 @@ public class DoubleArgumentParser extends ArgumentParser<Double> {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(arg + " is not a integer");
         }
+    }
+
+    @Override
+    public @NotNull List<String> getHints(Feeder<String> feeder) {
+        feeder.checkHasMore(1);
+        feeder.skip(1);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public @NotNull String getCommonHint() {
+        return "double";
     }
 }

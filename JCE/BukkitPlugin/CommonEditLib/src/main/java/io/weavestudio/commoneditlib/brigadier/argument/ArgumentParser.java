@@ -4,6 +4,9 @@ package io.weavestudio.commoneditlib.brigadier.argument;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -31,4 +34,21 @@ public abstract class ArgumentParser<TResult> {
         }
     }
 
+    @NotNull
+    public List<String> getHints(Feeder<String> feeder) {
+        return Collections.singletonList(getCommonHint());
+    }
+
+    @NotNull
+    public List<String> tryGetHints(Feeder<String> feeder) {
+        try {
+            return getHints(feeder);
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    // 获取通用提示：例如：player_name
+    @NotNull
+    public abstract String getCommonHint();
 }

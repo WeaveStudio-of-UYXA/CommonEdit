@@ -9,6 +9,7 @@ import io.weavestudio.commoneditlib.utils.Feeder;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 
 import static io.weavestudio.commoneditlib.brigadier.argument.ArgumentParsers.*;
 
@@ -18,6 +19,9 @@ public class CommandTest {
         dispatcher
                 .fork(node("", literals("exit"))
                         .execute(r -> System.exit(0))
+                        .fork(node("code", INTEGER)
+                                .execute(r -> System.exit(r.getArguments().get("code").asInt()))
+                        )
                 ).fork(node("int", INTEGER)
                         .execute(r -> System.out.println("int = " + r.getArguments().get("int").asInt()))
                         .fork(new NodeParameter<DataAdaptor, String>("name", STRING)
@@ -46,8 +50,18 @@ public class CommandTest {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] args = line.split(" ");
-            dispatcher.dispatch(MapDataAdaptor.create(), new Feeder<>(Arrays.asList(args)));
+            if (line.startsWith("/")) {
+                String[] args = line.substring(1).split(" ");
+                try {
+                    dispatcher.dispatch(MapDataAdaptor.create(), new Feeder<>(Arrays.asList(args)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (line.startsWith("?")) {
+                String[] args = line.substring(1).split(" ");
+                List<String> hints = dispatcher.getHints(MapDataAdaptor.create(), new Feeder<>(Arrays.asList(args)));
+                hints.forEach(System.out::println);
+            }
         }
     }
 

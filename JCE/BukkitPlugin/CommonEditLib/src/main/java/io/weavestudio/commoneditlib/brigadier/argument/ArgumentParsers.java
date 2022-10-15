@@ -13,10 +13,6 @@ public class ArgumentParsers {
     public static StringArgumentParser STRING = new StringArgumentParser();
     public static VectorArgumentParser VECTOR = new VectorArgumentParser();
 
-    public static <TResult> NamedArgumentParser<TResult> createParserWithName(@NotNull String name, @NotNull ArgumentParser<TResult> valueParser) {
-        return new NamedArgumentParser<>(name, valueParser);
-    }
-
     public static LiteralArgumentParser literals(String... literals) {
         return new LiteralArgumentParser(literals);
     }
