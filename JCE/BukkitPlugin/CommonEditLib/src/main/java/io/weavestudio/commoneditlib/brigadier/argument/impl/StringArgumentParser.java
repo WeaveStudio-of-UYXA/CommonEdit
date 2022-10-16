@@ -18,7 +18,8 @@ public class StringArgumentParser<TSender> extends ArgumentParser<TSender, Strin
     @Override
     public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
         feeder.checkHasMore(1);
-        return Collections.singletonList(feeder.read());
+        String arg = feeder.read();
+        return arg.length() == 0 ? Collections.emptyList() : Collections.singletonList(arg);
     }
 
     @Override
