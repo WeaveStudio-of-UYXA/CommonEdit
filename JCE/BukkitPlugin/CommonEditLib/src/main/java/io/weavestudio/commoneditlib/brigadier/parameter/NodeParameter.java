@@ -20,7 +20,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
     @Nullable
     protected String name;
     @Nullable
-    protected ArgumentParser<TResult> argumentParser;
+    protected ArgumentParser<TSender, TResult> argumentParser;
     @Nullable
     protected Supplier<TResult> defaultValueSupplier;
 
@@ -31,7 +31,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
         this.executor = null;
     }
 
-    public NodeParameter(@NotNull String name, @Nullable ArgumentParser<TResult> argumentParser) {
+    public NodeParameter(@NotNull String name, @Nullable ArgumentParser<TSender, TResult> argumentParser) {
         this.name = name;
         this.defaultValueSupplier = CommandUtils.suppliesNull();
         this.argumentParser = argumentParser;
@@ -55,28 +55,31 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
 
         if (argumentParser != null) { // 参数解析器非空，则必须要解析成功才可继续
             int index = argFeeder.getIndex();
-            @NotNull List<String> hints = argumentParser.tryGetHints(argFeeder);
+            @NotNull List<String> hints = argumentParser.tryGetPotentialHints(argFeeder, sender);
+            boolean potential = !hints.isEmpty();
 
             if (!argFeeder.hasNext()) {
-                if (hints.size() == 0) {
-                    String hint = defaultValueSupplier != null
-                            ? "[" + name + ":" + argumentParser.getCommonHint() + "]"
-                            : "<" + name + ":" + argumentParser.getCommonHint() + ">";
-                    results.add(new GetHintResult<>(dispatcher, argCollector, Collections.singletonList(hint), sender, argFeeder.getIndex()));
+                if (hints.isEmpty()) {
+                    hints = argumentParser.getCommonHints(sender);
                 }
-                results.add(new GetHintResult<>(dispatcher, argCollector, hints, sender, argFeeder.getIndex()));
+                if (hints.isEmpty()) {
+                    hints = Collections.singletonList(defaultValueSupplier != null
+                            ? "[" + name + ":" + argumentParser.getSimpleHint() + "]"
+                            : "<" + name + ":" + argumentParser.getSimpleHint() + ">");
+                }
+                results.add(new GetHintResult<>(dispatcher, argCollector, hints, sender, argFeeder.getIndex(), potential));
                 return results;
             }
 
             argFeeder.setIndex(index);
-            @Nullable TResult result = argumentParser.tryParse(argFeeder).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils::suppliesNull));
+            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils::suppliesNull));
             if (result == null) return Collections.emptyList();
             if (!StringUtils.isBlank(name)) {
                 argCollector.set(name, DataAdaptorUtils.fromObject(result));
             }
         } else if (!StringUtils.isBlank(name)) {
             String hint = defaultValueSupplier != null ? "[" + name + "]" : "<" + name + ">";
-            results.add(new GetHintResult<>(dispatcher, argCollector, Collections.singletonList(hint), sender, argFeeder.getIndex()));
+            results.add(new GetHintResult<>(dispatcher, argCollector, Collections.singletonList(hint), sender, argFeeder.getIndex(), false));
         }
 
         // 解析接下来的参数，接下来的参数可能是带有默认值的
@@ -98,7 +101,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
         List<DispatchResult<TSender>> results = new ArrayList<>();
 
         if (argumentParser != null) { // 参数解析器非空，则必须要解析成功才可继续
-            @Nullable TResult result = argumentParser.tryParse(argFeeder).orElseGet(defaultValueSupplier);
+            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils.suppliesNull()));
             if (result == null) return Collections.emptyList();
             if (!StringUtils.isBlank(name)) {
                 argCollector.set(name, DataAdaptorUtils.fromObject(result));

@@ -1,7 +1,6 @@
 import io.weavestudio.commoneditlib.brigadier.Dispatcher;
 import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
 import io.weavestudio.commoneditlib.brigadier.parameter.NodeParameter;
-import io.weavestudio.commoneditlib.brigadier.parameter.Parameter;
 import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.dataadaptor.impl.MapDataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
@@ -19,14 +18,14 @@ public class CommandTest {
         dispatcher
                 .fork(node("", literals("exit"))
                         .execute(r -> System.exit(0))
-                        .fork(node("code", INTEGER)
+                        .fork(node("code", integer())
                                 .execute(r -> System.exit(r.getArguments().get("code").asInt()))
                         )
-                ).fork(node("int", INTEGER)
+                ).fork(node("int", integer())
                         .execute(r -> System.out.println("int = " + r.getArguments().get("int").asInt()))
-                        .fork(new NodeParameter<DataAdaptor, String>("name", STRING)
+                        .fork(new NodeParameter<DataAdaptor, String>("name", string())
                                 .execute(r -> System.out.println("Hello " + r.getArguments().get("int").asInt() + " of " + r.getArguments().get("name").asString() + "!"))
-                                .fork(new NodeParameter<DataAdaptor, Boolean>("gender", BOOLEAN)
+                                .fork(new NodeParameter<DataAdaptor, Boolean>("gender", bool())
                                         .execute(r -> System.out.println("Hello " +
                                                 r.getArguments().get("int").asInt() + " of " +
                                                 (r.getArguments().get("gender").asBoolean() ? "Mr." : "Mrs.") +
@@ -35,14 +34,14 @@ public class CommandTest {
                                         )
                                 )
                         )
-                ).fork(node("double", DOUBLE)
+                ).fork(node("double", decimal())
                         .execute(r -> System.out.println("double = " + r.getArguments().get("double").asDouble()))
-                        .fork(new NodeParameter<DataAdaptor, String>("name", STRING)
+                        .fork(new NodeParameter<DataAdaptor, String>("name", string())
                                 .execute(r -> System.out.println("It is " + r.getArguments().get("double").asInt() + " kg of " + r.getArguments().get("name").asString() + "!"))
                         )
-                ).fork(node("boolean", BOOLEAN)
+                ).fork(node("boolean", bool())
                         .execute(r -> System.out.println("boolean = " + r.getArguments().get("boolean").asBoolean()))
-                ).fork(node("string", STRING)
+                ).fork(node("string", string())
                         .execute(r -> System.out.println("string = " + r.getArguments().get("string").asString()))
                 )
         ;
@@ -65,7 +64,7 @@ public class CommandTest {
         }
     }
 
-    static <TResult> NodeParameter<DataAdaptor, TResult> node(String name, ArgumentParser<TResult> argumentParser) {
+    static <TResult> NodeParameter<DataAdaptor, TResult> node(String name, ArgumentParser<DataAdaptor, TResult> argumentParser) {
         return new NodeParameter<>(name, argumentParser);
     }
 }

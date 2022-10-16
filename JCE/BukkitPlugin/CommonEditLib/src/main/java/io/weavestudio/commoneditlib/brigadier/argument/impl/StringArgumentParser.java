@@ -8,22 +8,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-public class StringArgumentParser extends ArgumentParser<String> {
+public class StringArgumentParser<TSender> extends ArgumentParser<TSender, String> {
     @Override
-    public @NotNull String parse(Feeder<String> argFeeder) throws IllegalArgumentException {
+    public @NotNull String parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
         argFeeder.checkHasMore(1);
         return argFeeder.read();
     }
 
     @Override
-    public @NotNull List<String> getHints(Feeder<String> feeder) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
         feeder.checkHasMore(1);
-        feeder.skip(1);
-        return Collections.emptyList();
+        return Collections.singletonList(feeder.read());
     }
 
     @Override
-    public @NotNull String getCommonHint() {
+    public @NotNull String getSimpleHint() {
         return "string";
     }
 }

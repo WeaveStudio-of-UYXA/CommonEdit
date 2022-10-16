@@ -15,13 +15,15 @@ public class GetHintResult<TSender> {
     @NotNull
     protected final TSender sender;
     protected final int length;
+    protected final boolean potential;
 
-    public GetHintResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull List<String> hints, @NotNull TSender sender, int length) {
+    public GetHintResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull List<String> hints, @NotNull TSender sender, int length, boolean potential) {
         this.dispatcher = dispatcher;
         this.arguments = arguments;
         this.hints = hints;
         this.sender = sender;
         this.length = length;
+        this.potential = potential;
     }
 
     public @NotNull Dispatcher<TSender> getDispatcher() {
@@ -42,5 +44,9 @@ public class GetHintResult<TSender> {
 
     public int getLength() {
         return length;
+    }
+
+    public boolean isPotential() {
+        return potential;
     }
 }

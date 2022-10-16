@@ -19,6 +19,7 @@ public interface DataAdaptor {
     default float asFloat() { throw new IllegalStateException("Failed converting to PersistentData"); }
     default double asDouble() { throw new IllegalStateException("Failed converting to PersistentData"); }
     default String asString() { throw new IllegalStateException("Failed converting to PersistentData"); }
+    default <T> T as() { throw new IllegalStateException("Failed converting to PersistentData"); }
 
 //    <T> T[] asTypedArray(Function<Object, T> elementProcessor);
 //    <T extends PersistentValue> T[] asArray(Function<Object, T> elementProcessor);

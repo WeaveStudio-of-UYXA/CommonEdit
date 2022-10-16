@@ -9,21 +9,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-public class VectorArgumentParser extends ArgumentParser<Vector> {
+public class VectorArgumentParser<TSender> extends ArgumentParser<TSender, Vector> {
+
+    private final DoubleArgumentParser<TSender> doubleParser = ArgumentParsers.decimal();
+
     @NotNull
     @Override
-    public Vector parse(Feeder<String> argFeeder) throws IllegalArgumentException {
+    public Vector parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
         argFeeder.checkHasMore(3);
         double[] values = new double[3];
         for (int i = 0; i < 3; i++) {
-            Double value = ArgumentParsers.DOUBLE.parse(argFeeder);
+            Double value = doubleParser.parse(argFeeder, sender);
             values[i] = value;
         }
         return new Vector(values[0], values[1], values[2]);
     }
 
     @Override
-    public @NotNull List<String> getHints(Feeder<String> feeder) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
         if (feeder.hasMore(3)) {
             feeder.skip(3);
             return Collections.singletonList("z");
@@ -38,7 +41,7 @@ public class VectorArgumentParser extends ArgumentParser<Vector> {
     }
 
     @Override
-    public @NotNull String getCommonHint() {
+    public @NotNull String getSimpleHint() {
         return "x y z";
     }
 }

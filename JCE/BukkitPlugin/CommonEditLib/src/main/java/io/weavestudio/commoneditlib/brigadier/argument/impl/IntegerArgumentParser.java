@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-public class IntegerArgumentParser extends ArgumentParser<Integer> {
+public class IntegerArgumentParser<TSender> extends ArgumentParser<TSender, Integer> {
 
     @Override
-    public @NotNull Integer parse(Feeder<String> argFeeder) throws IllegalArgumentException {
+    public @NotNull Integer parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
         argFeeder.checkHasMore(1);
         String arg = argFeeder.read();
         try {
@@ -22,14 +22,19 @@ public class IntegerArgumentParser extends ArgumentParser<Integer> {
     }
 
     @Override
-    public @NotNull List<String> getHints(Feeder<String> feeder) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
         feeder.checkHasMore(1);
-        feeder.skip(1);
-        return Collections.emptyList();
+        String arg = feeder.read();
+        try {
+            Integer.parseInt(arg);
+            return Collections.singletonList(arg);
+        } catch (NumberFormatException e) {
+            return Collections.emptyList();
+        }
     }
 
     @Override
-    public @NotNull String getCommonHint() {
+    public @NotNull String getSimpleHint() {
         return "int";
     }
 }

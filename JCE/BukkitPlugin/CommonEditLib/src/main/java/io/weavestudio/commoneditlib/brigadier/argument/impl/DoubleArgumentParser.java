@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class DoubleArgumentParser extends ArgumentParser<Double> {
+public class DoubleArgumentParser<TSender> extends ArgumentParser<TSender, Double> {
     @Override
-    public @NotNull Double parse(Feeder<String> argFeeder) throws IllegalArgumentException {
+    public @NotNull Double parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
         argFeeder.checkHasMore(1);
         String arg = argFeeder.read();
         try {
@@ -22,14 +22,24 @@ public class DoubleArgumentParser extends ArgumentParser<Double> {
     }
 
     @Override
-    public @NotNull List<String> getHints(Feeder<String> feeder) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
         feeder.checkHasMore(1);
-        feeder.skip(1);
-        return Collections.emptyList();
+        String arg = feeder.read();
+        try {
+            Double.parseDouble(arg);
+            return Collections.singletonList(arg);
+        } catch (NumberFormatException e) {
+            return Collections.emptyList();
+        }
     }
 
     @Override
-    public @NotNull String getCommonHint() {
+    public @NotNull List<String> getCommonHints(Object sender) {
+        return Arrays.asList("true", "false");
+    }
+
+    @Override
+    public @NotNull String getSimpleHint() {
         return "double";
     }
 }

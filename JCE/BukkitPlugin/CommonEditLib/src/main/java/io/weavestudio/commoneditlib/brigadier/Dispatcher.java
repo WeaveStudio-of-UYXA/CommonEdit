@@ -5,10 +5,7 @@ import io.weavestudio.commoneditlib.dataadaptor.impl.MapDataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.bukkit.ChatColor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Dispatcher<TSender> extends RootParameter<TSender> {
@@ -21,6 +18,10 @@ public class Dispatcher<TSender> extends RootParameter<TSender> {
 
     public List<String> getHints(TSender sender, Feeder<String> argFeeder) {
         List<GetHintResult<TSender>> results = onGetHints(argFeeder, MapDataAdaptor.create(), sender, this);
+        List<GetHintResult<TSender>> potentialResults = results.stream().filter(GetHintResult::isPotential).collect(Collectors.toList());
+        if (!potentialResults.isEmpty()) {
+            results = potentialResults;
+        }
 
         int shortLength = Integer.MAX_VALUE;
         List<GetHintResult<TSender>> shortResults = new ArrayList<>();
@@ -37,7 +38,13 @@ public class Dispatcher<TSender> extends RootParameter<TSender> {
         argFeeder.setIndex(shortLength);
         if (argFeeder.hasNext()) return Collections.singletonList("!多余或错误的参数：" + argFeeder.read());
 
-        return shortResults.stream().flatMap(r -> r.getHints().stream()).collect(Collectors.toList());
+        return shortResults.stream()
+                .flatMap(r -> r.getHints().stream())
+                .collect(Collectors.toSet())
+                .stream()
+                .sorted(String::compareTo)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 
     public void dispatch(TSender sender, Feeder<String> argFeeder) throws Exception {
