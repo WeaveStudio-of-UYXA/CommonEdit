@@ -37,5 +37,9 @@ public class Registry<TKey, TValue> {
         return map.values();
     }
 
+    public void clear() {
+        map.clear();
+    }
+
 
 }
