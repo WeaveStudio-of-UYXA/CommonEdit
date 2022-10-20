@@ -1,4 +1,4 @@
-package io.weavestudio.commoneditlib.brigadier.argument;
+package io.weavestudio.commoneditlib.brigadier;
 
 import io.weavestudio.commoneditlib.brigadier.Dispatcher;
 import io.weavestudio.commoneditlib.utils.Feeder;
@@ -25,7 +25,6 @@ public class CommandTabExecutor extends Dispatcher<CommandSender> implements Tab
             dispatch(sender, new Feeder<>(Arrays.asList(args)));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             sender.sendMessage(e.getMessage());
             return true;
         }
