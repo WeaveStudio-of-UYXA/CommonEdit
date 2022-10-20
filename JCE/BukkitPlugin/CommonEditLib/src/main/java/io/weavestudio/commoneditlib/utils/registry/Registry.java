@@ -1,9 +1,11 @@
 package io.weavestudio.commoneditlib.utils.registry;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Registry<TKey, TValue> {
 
@@ -25,8 +27,16 @@ public class Registry<TKey, TValue> {
         return map.remove(key, value);
     }
 
-    public TValue get(TKey key) {
+    public @Nullable TValue get(TKey key) {
         return map.get(key);
+    }
+
+    public @NotNull TValue getOrThrow(TKey key, Supplier<Exception> exceptionSupplier) throws Exception {
+        return Optional.ofNullable(map.get(key)).orElseThrow(exceptionSupplier);
+    }
+
+    public @NotNull Optional<TValue> tryGet(TKey key) {
+        return Optional.ofNullable(map.get(key));
     }
 
     public Set<TKey> keySet() {
