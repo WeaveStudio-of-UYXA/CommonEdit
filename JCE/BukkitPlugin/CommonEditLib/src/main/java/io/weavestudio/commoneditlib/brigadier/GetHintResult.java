@@ -3,23 +3,27 @@ package io.weavestudio.commoneditlib.brigadier;
 import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import org.jetbrains.annotations.NotNull;
 
-public class DispatchResult<TSender> {
+import java.util.List;
+
+public class GetHintResult<TSender> {
     @NotNull
     protected final Dispatcher<TSender> dispatcher;
     @NotNull
     protected final DataAdaptor arguments;
     @NotNull
-    protected final Executor<TSender> executor;
+    protected final List<String> hints;
     @NotNull
     protected final TSender sender;
     protected final int length;
+    protected final boolean potential;
 
-    public DispatchResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull Executor<TSender> executor, @NotNull TSender sender, int length) {
+    public GetHintResult(@NotNull Dispatcher<TSender> dispatcher, @NotNull DataAdaptor arguments, @NotNull List<String> hints, @NotNull TSender sender, int length, boolean potential) {
         this.dispatcher = dispatcher;
         this.arguments = arguments;
-        this.executor = executor;
+        this.hints = hints;
         this.sender = sender;
         this.length = length;
+        this.potential = potential;
     }
 
     public @NotNull Dispatcher<TSender> getDispatcher() {
@@ -30,8 +34,8 @@ public class DispatchResult<TSender> {
         return arguments;
     }
 
-    public @NotNull Executor<TSender> getExecutor() {
-        return executor;
+    public @NotNull List<String> getHints() {
+        return hints;
     }
 
     public @NotNull TSender getSender() {
@@ -40,5 +44,9 @@ public class DispatchResult<TSender> {
 
     public int getLength() {
         return length;
+    }
+
+    public boolean isPotential() {
+        return potential;
     }
 }

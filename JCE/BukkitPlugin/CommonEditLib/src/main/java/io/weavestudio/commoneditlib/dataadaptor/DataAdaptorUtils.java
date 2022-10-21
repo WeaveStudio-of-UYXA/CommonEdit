@@ -61,7 +61,7 @@ public class DataAdaptorUtils {
         if (obj instanceof Map) return fromMap((Map<?, ?>) obj);
         if (obj instanceof List) return fromList((List<?>) obj);
         if (obj instanceof ConfigurationSection) return fromMap(((ConfigurationSection) obj).getValues(false));
-        return new ObjectDataAdaptor(obj);
+        return ObjectDataAdaptor.of(obj);
     }
 
     public static MapDataAdaptor fromMap(Map<?, ?> map) {

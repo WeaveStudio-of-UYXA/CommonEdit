@@ -4,6 +4,10 @@ import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 
 public class ObjectDataAdaptor implements DataAdaptor {
 
+    public static ObjectDataAdaptor of(Object object) {
+        return new ObjectDataAdaptor(object);
+    }
+
     protected Object object;
     
     public ObjectDataAdaptor(Object object) {
@@ -61,7 +65,12 @@ public class ObjectDataAdaptor implements DataAdaptor {
         return object.toString();
     }
 
-//    public PersistentData asData() {
+    @Override
+    public <T> T as() {
+        return (T) object;
+    }
+
+    //    public PersistentData asData() {
 //        if (object instanceof PersistentData) return (PersistentData) object;
 //        else if (object instanceof Map) return new MapPersistentData((Map<String, Object>) object);
 //        else throw new IllegalStateException("Cannot transform to data");

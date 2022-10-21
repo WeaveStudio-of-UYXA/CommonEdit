@@ -3,6 +3,7 @@ package io.weavestudio.commoneditlib.brigadier.parameter;
 import io.weavestudio.commoneditlib.brigadier.DispatchResult;
 import io.weavestudio.commoneditlib.brigadier.Dispatcher;
 import io.weavestudio.commoneditlib.brigadier.Executor;
+import io.weavestudio.commoneditlib.brigadier.GetHintResult;
 import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.Nullable;
@@ -28,5 +29,6 @@ public abstract class Parameter<TSender> {
         return this;
     }
 
+    abstract List<GetHintResult<TSender>> onGetHints(Feeder<String> argFeeder, DataAdaptor argCollector, TSender sender, Dispatcher<TSender> dispatcher);
     abstract List<DispatchResult<TSender>> onDispatch(Feeder<String> argFeeder, DataAdaptor argCollector, TSender sender, Dispatcher<TSender> dispatcher);
 }
