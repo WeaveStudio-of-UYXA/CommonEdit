@@ -1,19 +1,15 @@
 package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
-import io.weavestudio.commoneditlib.brigadier.CommandUtils;
-import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 
-public class IntegerArgumentParser<TSender> extends ArgumentParser<TSender, Integer> {
+public class IntegerArgumentParser<TSender> extends SingleArgumentParser<TSender, Integer> {
 
     @Override
-    public @NotNull Integer parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
-        argFeeder.checkHasMore(1);
-        String arg = argFeeder.read();
+    Integer parse(String arg) throws IllegalArgumentException {
         try {
             return Integer.parseInt(arg);
         } catch (NumberFormatException e) {
