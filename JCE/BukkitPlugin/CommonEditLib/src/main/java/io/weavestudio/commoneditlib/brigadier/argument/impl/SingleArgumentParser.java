@@ -19,6 +19,6 @@ public abstract class SingleArgumentParser<TSender, TResult> extends ArgumentPar
     @Override
     public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) throws IllegalArgumentException {
         feeder.checkHasMore(1);
-        return CommandUtils.tryMatch(getCommonHints(sender), feeder.read());
+        return CommandUtils.tryMatch(getCommonHints(sender), feeder.read(), false);
     }
 }
