@@ -2,6 +2,7 @@ package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
 import io.weavestudio.commoneditlib.brigadier.CommandUtils;
 import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,7 @@ public class DynamicArgumentParser<TSender> extends ArgumentParser<TSender, Stri
 
 
     @Override
-    public @NotNull String parse(Feeder<String> feeder, TSender sender) throws IllegalArgumentException {
+    public @NotNull String parse(Feeder<String> feeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {
         feeder.checkHasMore(1);
         String arg = feeder.read();
         List<String> validValues = getCommonHintsFunction.apply(sender);
@@ -27,13 +28,13 @@ public class DynamicArgumentParser<TSender> extends ArgumentParser<TSender, Stri
     }
 
     @Override
-    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) throws IllegalArgumentException {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {
         feeder.checkHasMore(1);
-        return CommandUtils.tryMatch(getCommonHints(sender), feeder.read(), false);
+        return CommandUtils.tryMatch(getCommonHints(sender, arguments), feeder.read(), false);
     }
 
     @Override
-    public @NotNull List<String> getCommonHints(TSender sender) {
+    public @NotNull List<String> getCommonHints(TSender sender, DataAdaptor arguments) {
         return getCommonHintsFunction.apply(sender);
     }
 

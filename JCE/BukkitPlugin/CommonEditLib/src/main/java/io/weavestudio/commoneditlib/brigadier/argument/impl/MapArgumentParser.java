@@ -1,6 +1,7 @@
 package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
 import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,21 +28,21 @@ public class MapArgumentParser<TSender, TKey, TResult> extends ArgumentParser<TS
     }
 
     @Override
-    public @NotNull TResult parse(Feeder<String> feeder, TSender sender) throws IllegalArgumentException {
-        TKey key = parser.parse(feeder, sender);
+    public @NotNull TResult parse(Feeder<String> feeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {
+        TKey key = parser.parse(feeder, sender, arguments);
         TResult result = map.get(key);
         if (result == null) throw new IllegalArgumentException("Map result of key is null: " + key);
         return result;
     }
 
     @Override
-    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) throws IllegalArgumentException {
-        return parser.getPotentialHints(feeder, sender);
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {
+        return parser.getPotentialHints(feeder, sender, arguments);
     }
 
     @Override
-    public @NotNull List<String> getCommonHints(TSender sender) {
-        return parser.getCommonHints(sender);
+    public @NotNull List<String> getCommonHints(TSender sender, DataAdaptor arguments) {
+        return parser.getCommonHints(sender, arguments);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public class DoubleArgumentParser<TSender> extends SingleArgumentParser<TSender, Double> {
 
     @Override
-    Double parse(String arg) throws IllegalArgumentException {
+    Double parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         try {
             return Double.parseDouble(arg);
         } catch (NumberFormatException e) {
@@ -18,7 +19,7 @@ public class DoubleArgumentParser<TSender> extends SingleArgumentParser<TSender,
     }
 
     @Override
-    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) {
         feeder.checkHasMore(1);
         String arg = feeder.read();
         try {

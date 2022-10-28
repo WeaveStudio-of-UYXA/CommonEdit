@@ -2,6 +2,7 @@ package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
 import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
 import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParsers;
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -15,18 +16,18 @@ public class VectorArgumentParser<TSender> extends ArgumentParser<TSender, Vecto
 
     @NotNull
     @Override
-    public Vector parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
+    public Vector parse(Feeder<String> argFeeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {
         argFeeder.checkHasMore(3);
         double[] values = new double[3];
         for (int i = 0; i < 3; i++) {
-            Double value = doubleParser.parse(argFeeder, sender);
+            Double value = doubleParser.parse(argFeeder, sender, arguments);
             values[i] = value;
         }
         return new Vector(values[0], values[1], values[2]);
     }
 
     @Override
-    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) {
         if (feeder.hasMore(3)) {
             feeder.skip(3);
             return Collections.singletonList("z");

@@ -1,6 +1,7 @@
 package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
 import io.weavestudio.commoneditlib.brigadier.CommandUtils;
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -27,12 +28,12 @@ public class EnumArgumentParser<TSender, TEnum extends Enum<TEnum>> extends Sing
     }
 
     @Override
-    TEnum parse(String arg) throws IllegalArgumentException {
+    TEnum parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         return Arrays.stream(values).filter(v -> CommandUtils.equals(literalGetter.apply(v), arg)).findAny().orElseThrow(() -> new IllegalArgumentException("is not valid value"));
     }
 
     @Override
-    public @NotNull List<String> getCommonHints(TSender sender) {
+    public @NotNull List<String> getCommonHints(TSender sender, DataAdaptor arguments) {
         return Arrays.stream(values).map(literalGetter).collect(Collectors.toList());
     }
 }
