@@ -28,7 +28,7 @@ public class EnumArgumentParser<TSender, TEnum extends Enum<TEnum>> extends Sing
     }
 
     @Override
-    TEnum parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public TEnum parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         return Arrays.stream(values).filter(v -> CommandUtils.equals(literalGetter.apply(v), arg)).findAny().orElseThrow(() -> new IllegalArgumentException("is not valid value"));
     }
 

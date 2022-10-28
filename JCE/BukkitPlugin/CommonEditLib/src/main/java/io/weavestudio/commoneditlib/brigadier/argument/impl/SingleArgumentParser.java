@@ -15,7 +15,7 @@ public abstract class SingleArgumentParser<TSender, TResult> extends ArgumentPar
         return parse(feeder.read(), arguments);
     }
 
-    abstract TResult parse(String arg, DataAdaptor arguments) throws IllegalArgumentException;
+    abstract public TResult parse(String arg, DataAdaptor arguments) throws IllegalArgumentException;
 
     @Override
     public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) throws IllegalArgumentException {

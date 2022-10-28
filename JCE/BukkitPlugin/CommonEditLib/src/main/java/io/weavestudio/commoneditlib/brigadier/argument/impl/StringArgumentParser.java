@@ -11,7 +11,7 @@ import java.util.List;
 public class StringArgumentParser<TSender> extends SingleArgumentParser<TSender, String> {
 
     @Override
-    String parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public String parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         if (StringUtils.isBlank(arg)) throw new IllegalArgumentException("is blank");
         return arg;
     }

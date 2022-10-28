@@ -26,7 +26,7 @@ public class LiteralArgumentParser<TSender> extends SingleArgumentParser<TSender
     }
 
     @Override
-    String parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public String parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         if (!literals.contains(arg)) throw new IllegalArgumentException("is on in optional literals");
         return arg;
     }

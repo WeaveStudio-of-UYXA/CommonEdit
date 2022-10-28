@@ -10,7 +10,7 @@ import java.util.List;
 public class IntegerArgumentParser<TSender> extends SingleArgumentParser<TSender, Integer> {
 
     @Override
-    Integer parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public Integer parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         try {
             return Integer.parseInt(arg);
         } catch (NumberFormatException e) {

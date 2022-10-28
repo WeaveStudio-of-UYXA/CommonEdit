@@ -10,7 +10,7 @@ import java.util.List;
 public class DoubleArgumentParser<TSender> extends SingleArgumentParser<TSender, Double> {
 
     @Override
-    Double parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public Double parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         try {
             return Double.parseDouble(arg);
         } catch (NumberFormatException e) {

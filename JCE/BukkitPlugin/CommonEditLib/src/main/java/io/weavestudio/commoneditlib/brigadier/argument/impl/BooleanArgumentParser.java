@@ -10,7 +10,7 @@ import java.util.List;
 public class BooleanArgumentParser<TSender> extends SingleArgumentParser<TSender, Boolean> {
 
     @Override
-    Boolean parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
+    public Boolean parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         if (CommandUtils.equals("true", arg)) return true;
         else if (CommandUtils.equals("false", arg)) return false;
         else throw new IllegalArgumentException("is not boolean");
