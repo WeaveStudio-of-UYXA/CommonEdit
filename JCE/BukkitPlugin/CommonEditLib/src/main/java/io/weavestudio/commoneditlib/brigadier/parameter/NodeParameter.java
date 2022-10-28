@@ -55,12 +55,12 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
 
         if (argumentParser != null) { // 参数解析器非空，则必须要解析成功才可继续
             int index = argFeeder.getIndex();
-            @NotNull List<String> hints = argumentParser.tryGetPotentialHints(argFeeder, sender);
+            @NotNull List<String> hints = argumentParser.tryGetPotentialHints(argFeeder, sender, argCollector);
             boolean potential = !hints.isEmpty();
 
             if (!argFeeder.hasNext()) {
                 if (hints.isEmpty()) {
-                    hints = argumentParser.getCommonHints(sender);
+                    hints = argumentParser.getCommonHints(sender, argCollector);
                 }
                 if (hints.isEmpty()) {
                     hints = Collections.singletonList(defaultValueSupplier != null
@@ -72,7 +72,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
             }
 
             argFeeder.setIndex(index);
-            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils::suppliesNull));
+            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender, argCollector).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils::suppliesNull));
             if (result == null) return Collections.emptyList();
             if (!StringUtils.isBlank(name)) {
                 argCollector.set(name, DataAdaptorUtils.fromObject(result));
@@ -101,7 +101,7 @@ public class NodeParameter<TSender, TResult> extends Parameter<TSender> {
         List<DispatchResult<TSender>> results = new ArrayList<>();
 
         if (argumentParser != null) { // 参数解析器非空，则必须要解析成功才可继续
-            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils.suppliesNull()));
+            @Nullable TResult result = argumentParser.tryParse(argFeeder, sender, argCollector).orElseGet(Optional.ofNullable(defaultValueSupplier).orElseGet(CommandUtils.suppliesNull()));
             if (result == null) return Collections.emptyList();
             if (!StringUtils.isBlank(name)) {
                 argCollector.set(name, DataAdaptorUtils.fromObject(result));

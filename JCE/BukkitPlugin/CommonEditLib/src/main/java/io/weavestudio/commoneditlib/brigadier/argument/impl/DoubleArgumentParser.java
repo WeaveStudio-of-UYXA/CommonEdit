@@ -1,28 +1,25 @@
 package io.weavestudio.commoneditlib.brigadier.argument.impl;
 
-import io.weavestudio.commoneditlib.brigadier.CommandUtils;
-import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
+import io.weavestudio.commoneditlib.dataadaptor.DataAdaptor;
 import io.weavestudio.commoneditlib.utils.Feeder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class DoubleArgumentParser<TSender> extends ArgumentParser<TSender, Double> {
+public class DoubleArgumentParser<TSender> extends SingleArgumentParser<TSender, Double> {
+
     @Override
-    public @NotNull Double parse(Feeder<String> argFeeder, TSender sender) throws IllegalArgumentException {
-        argFeeder.checkHasMore(1);
-        String arg = argFeeder.read();
+    public Double parse(String arg, DataAdaptor arguments) throws IllegalArgumentException {
         try {
             return Double.parseDouble(arg);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(arg + " is not a integer");
+            throw new IllegalArgumentException(arg + " is not a double");
         }
     }
 
     @Override
-    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender) {
+    public @NotNull List<String> getPotentialHints(Feeder<String> feeder, TSender sender, DataAdaptor arguments) {
         feeder.checkHasMore(1);
         String arg = feeder.read();
         try {
@@ -31,11 +28,6 @@ public class DoubleArgumentParser<TSender> extends ArgumentParser<TSender, Doubl
         } catch (NumberFormatException e) {
             return Collections.emptyList();
         }
-    }
-
-    @Override
-    public @NotNull List<String> getCommonHints(Object sender) {
-        return Arrays.asList("true", "false");
     }
 
     @Override
