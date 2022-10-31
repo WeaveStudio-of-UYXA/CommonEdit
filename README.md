@@ -1,4 +1,4 @@
-# CommonEdid 共同编辑 JCE
+# CommonEdit 共同编辑 JCE
 
 亿绪组织通用开发库CommonEdit for Java
 
