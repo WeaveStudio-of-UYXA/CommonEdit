@@ -1,5 +1,8 @@
 package io.weavestudio.commoneditlib.brigadier;
 
+import io.weavestudio.commoneditlib.brigadier.argument.ArgumentParser;
+import io.weavestudio.commoneditlib.brigadier.parameter.NodeParameter;
+import io.weavestudio.commoneditlib.brigadier.parameter.Parameter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -42,5 +45,20 @@ public class CommandUtils {
 
     public static Supplier<Exception> suppliesException(String message) {
         return () -> new Exception(message);
+    }
+
+
+    public static <TSender, TResult> Parameter<TSender> node(String name, ArgumentParser<TSender, TResult> parser) {
+        return new NodeParameter<TSender, TResult>(name, parser);
+    }
+
+    public static <TSender> Parameter<TSender> chain(Parameter<TSender>... parameters) {
+        if (parameters.length <= 0) throw new IllegalArgumentException("parsers must contains at least one parameter");
+
+        for (int i = 1; i < parameters.length; i++) {
+            parameters[i - 1].fork(parameters[i]);
+        }
+
+        return parameters[parameters.length - 1];
     }
 }
